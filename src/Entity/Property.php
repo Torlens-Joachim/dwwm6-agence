@@ -238,9 +238,9 @@ class Property
     public function getTransactionType(): ?string
     {
         if ($this->transactionType === true) {
-            $transactionType = "vente";
+            $transactionType = "A vendre";
         } else {    
-            $transactionType = "location";
+            $transactionType = "A louer";
         }
         return $transactionType;
     }
