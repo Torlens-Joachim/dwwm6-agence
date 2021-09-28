@@ -87,7 +87,7 @@ class Property
     /**
      * @ORM\Column(type="boolean")
      */
-    private $sell;
+    private $sell = false;
 
     /**
      * @ORM\Column(type="string", length=120)
@@ -235,9 +235,14 @@ class Property
         return $this;
     }
 
-    public function getTransactionType(): ?bool
+    public function getTransactionType(): ?string
     {
-        return $this->transactionType;
+        if ($this->transactionType === true) {
+            $transactionType = "vente";
+        } else {    
+            $transactionType = "location";
+        }
+        return $transactionType;
     }
 
     public function setTransactionType(bool $transactionType): self
