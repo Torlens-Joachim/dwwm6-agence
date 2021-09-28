@@ -14,12 +14,30 @@ class PropertyController extends AbstractController
     {
         $properties = $this->getDoctrine()->getRepository(Property::class)->findBy(
                             [], 
-                            ["dateOfConstruction" => "DESC"], 
+                            ["id" => "DESC"], 
                             5
                         );
 
         return $this->render('property/index.html.twig', [
             "properties" => $properties
+        ]);
+    }
+
+    #[Route('/biens', name:"properties")]
+    public function properties (): Response
+    {
+        $properties = $this->getDoctrine()->getRepository(Property::class)->findAll();
+
+        return $this->render("property/properties.html.twig", [
+            "properties" => $properties
+        ]);
+    }
+
+    #[Route('/bien/{slug}', name:"property_show")]
+    public function show (Property $property): Response
+    {
+        return $this->render("property/show.html.twig", [
+            "property" => $property
         ]);
     }
 }

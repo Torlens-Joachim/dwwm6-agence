@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=PictureRepository::class)
+ * @UniqueEntity("name")
  */
 class Picture
 {
@@ -19,6 +22,9 @@ class Picture
 
     /**
      * @ORM\Column(type="string", length=40)
+     * @Assert\File(
+     *  mimeTypes={"image/png", "image/jpg"}
+     * )
      */
     private $name;
 
@@ -33,12 +39,12 @@ class Picture
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName($name): self
     {
         $this->name = $name;
 

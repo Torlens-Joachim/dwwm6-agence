@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Nos biens{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5 text-center">Retrouvez tous nos biens disponibles ici</h1>
+
+        <div class="mt-3">
+            <p class="h6">Nombre de biens disponibles:
+                <span class="text-success">X</span>
+            </p>
+        </div>
+        <div class="row">
+            {% for property in properties %}
+					<div class="card m-3" style="width:18rem;">
+						<img src="https://fakeimg.pl/300" alt="{{property.title}}" class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">{{property.title}}</h5>
+							<p class="card-text">Nb de pièces:
+								{{property.rooms}}</p>
+							<p class="card-text">Surface:
+								{{property.surface}} m²</p>
+							<p class="card-text">Prix:
+								{{property.price|number_format(0, ',', ' ')}}
+								€</p>
+							<p class="card-text">
+								{{property.transactionType}}
+								</p>
+							<a href="{{path("property_show", {slug:property.slug})}}" class="btn btn-primary">Voir le bien</a>
+						</div>
+					</div>
+				{% else %}
+					<h2 class="h1">Nous n'avons aucun bien à vous proposer pour le moment</h2>
+				{% endfor %}
+        </div>
+    </div>
+{% endblock %}
