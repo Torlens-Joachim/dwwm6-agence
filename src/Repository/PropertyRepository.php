@@ -22,19 +22,33 @@ class PropertyRepository extends ServiceEntityRepository
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findFilterProperties($criteria = [])
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere('p.sell = false');
+        
+            if (array_key_exists("roomsMin", $criteria) && !empty($criteria["roomsMin"])) {
+                $qb->andWhere($qb->expr()->gte('p.rooms', $criteria["roomsMin"]));
+            }
+            if (array_key_exists("roomsMax", $criteria) && !empty($criteria["roomsMax"])) {
+                $qb->andWhere($qb->expr()->lte('p.rooms', $criteria["roomsMax"]));
+            }
+            if (array_key_exists("surfaceMin", $criteria) && !empty($criteria["surfaceMin"])) {
+                $qb->andWhere($qb->expr()->gte('p.surface', $criteria["surfaceMin"]));
+            }
+            if (array_key_exists("surfaceMax", $criteria) && !empty($criteria["surfaceMax"])) {
+                $qb->andWhere($qb->expr()->lte('p.surface', $criteria["surfaceMax"]));
+            }
+            if (array_key_exists("priceMin", $criteria) && !empty($criteria["priceMin"])) {
+                $qb->andWhere($qb->expr()->gte('p.price', $criteria["priceMin"]));
+            }
+            if (array_key_exists("priceMax", $criteria) && !empty($criteria["priceMax"])) {
+                $qb->andWhere($qb->expr()->lte('p.price', $criteria["priceMax"]));
+            }
+
+            return $qb->getQuery()->getResult();
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Property

@@ -127,9 +127,15 @@ class Property
      */
     private $pictures;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Appointment::class, mappedBy="property", orphanRemoval=true)
+     */
+    private $appointments;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+        $this->appointments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -358,6 +364,36 @@ class Property
             // set the owning side to null (unless already changed)
             if ($picture->getProperty() === $this) {
                 $picture->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Appointment[]
+     */
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments[] = $appointment;
+            $appointment->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getProperty() === $this) {
+                $appointment->setProperty(null);
             }
         }
 
