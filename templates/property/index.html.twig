@@ -21,7 +21,7 @@
 							<p class="card-text">
 								{{property.transactionType}}
 								</p>
-							<a href="#" class="btn btn-primary">Voir le bien</a>
+							<a href="{{ path('property_show', {slug:property.slug}) }}" class="btn btn-primary">Voir le bien</a>
 						</div>
 					</div>
 				{% else %}
@@ -49,16 +49,16 @@
 			</div>
 			<div class="ps-2 pt-2">
 				<p>
-					<a href="#">Appartement</a>
+					<a href="{{ path('properties') ~ "?type=appartement" }}">Appartement</a>
 				</p>
 				<p>
-					<a href="#">Maison</a>
+					<a href="{{ path('properties') ~ "?type=maison" }}">Maison</a>
 				</p>
 				<p>
-					<a href="#">Achat</a>
+					<a href="{{ path('properties') ~ "?transactionType=true" }}">Achat</a>
 				</p>
 				<p>
-					<a href="#">Location</a>
+					<a href="{{ path('properties') ~ "?false=true" }}">Location</a>
 				</p>
 			</div>
 		</div>

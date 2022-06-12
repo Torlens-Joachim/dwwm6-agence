@@ -12,6 +12,12 @@
 					<thead>
 						<tr>
 							<th>
+								<label for="type">Type du bien</label>
+							</th>
+							<th>
+								<label for="transactionType">Achat/Location</label>
+							</th>
+							<th>
 								<label for="roomsMin">Pièces min</label>
 							</th>
 							<th>
@@ -33,6 +39,28 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>
+								{% set types = ['', 'maison', 'appartement'] %}
+								<select name="type" id="type">
+									{% for type in types %}
+										<option value="{{type}}" 
+										{% if filters.type is same as(type) %}
+											selected
+										{% endif %}
+										>{{type|capitalize}}</option>
+									{% endfor %}
+									{# <option value=""></option>
+									<option value="maison">Maison</option>
+									<option value="appartement">Appartement</option> #}
+								</select>
+							</td>
+							<td>
+								<select name="transactionType" id="transactionType" value={{filters.trasnactionType|default('')}}>
+									<option value=""></option>
+									<option value="true">Achat</option>
+									<option value="false">Location</option>
+								</select>
+							</td>
 							<td><input type="number" name="roomsMin" id="roomsMin" value={{filters.roomsMin|default('')}}></td>
 							<td><input type="number" name="roomsMax" id="roomsMax" value={{filters.roomsMax|default('')}}></td>
 							<td><input type="number" name="surfaceMin" id="surfaceMin" value={{filters.surfaceMin|default('')}}></td>

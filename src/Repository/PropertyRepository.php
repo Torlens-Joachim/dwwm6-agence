@@ -27,6 +27,12 @@ class PropertyRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')
             ->andWhere('p.sell = false');
         
+            if (array_key_exists("type", $criteria) && !empty($criteria["type"])) {
+                $qb->andWhere("p.type = '". $criteria["type"]. "'");
+            }
+            if (array_key_exists("transactionType", $criteria) && !empty($criteria["transactionType"])) {
+                $qb->andWhere('p.transactionType =' .$criteria["transactionType"]);
+            }
             if (array_key_exists("roomsMin", $criteria) && !empty($criteria["roomsMin"])) {
                 $qb->andWhere($qb->expr()->gte('p.rooms', $criteria["roomsMin"]));
             }
