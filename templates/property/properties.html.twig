@@ -40,25 +40,37 @@
 					<tbody>
 						<tr>
 							<td>
-								{% set types = ['', 'maison', 'appartement'] %}
+								{% set types = ['maison', 'appartement'] %}
 								<select name="type" id="type">
+									<option value=""></option>
 									{% for type in types %}
 										<option value="{{type}}" 
-										{% if filters.type is same as(type) %}
-											selected
+										{% if filters and "type" in filters|keys %}											
+											{% if filters.type is same as(type) %}
+												selected
+											{% endif %}
 										{% endif %}
 										>{{type|capitalize}}</option>
-									{% endfor %}
-									{# <option value=""></option>
-									<option value="maison">Maison</option>
-									<option value="appartement">Appartement</option> #}
+									{% endfor %}	
 								</select>
 							</td>
 							<td>
-								<select name="transactionType" id="transactionType" value={{filters.trasnactionType|default('')}}>
+								{% set transactionTypes = ['Achat', 'Location'] %}
+								<select name="transactionType" id="transactionType" value={{filters.trasanctionType|default('')}}>
 									<option value=""></option>
-									<option value="true">Achat</option>
-									<option value="false">Location</option>
+									{% for transaction in transactionTypes %}
+										{% if transaction == "Achat" %}
+										<option value="true">{{transaction|capitalize}}</option>
+										{% else %}
+											<option value="false" 
+										{% if filters and "transactionType" in filters|keys %}											
+											{% if filters.transactionType is same as(transaction) %}
+												selected
+											{% endif %}
+										{% endif %}
+										>{{transaction|capitalize}}</option>
+										{% endif %}
+									{% endfor %}
 								</select>
 							</td>
 							<td><input type="number" name="roomsMin" id="roomsMin" value={{filters.roomsMin|default('')}}></td>
