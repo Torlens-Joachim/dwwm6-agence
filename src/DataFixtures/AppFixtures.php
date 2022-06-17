@@ -21,18 +21,31 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
         $employee = new User;
         $employee->setFirstname($faker->firstName())
-                ->setLastname($faker->lastName())
-                ->setEmail($faker->email())
-                ->setPhone($faker->phoneNumber())
-                ->setPassword(
-                    $this->encoder->encodePassword(
-                        $employee,
-                        'password'
-                    )
-                    );
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
+            ->setPhone('0606060606')
+            ->setPassword(
+                $this->encoder->encodePassword(
+                    $employee,
+                    'password'
+                )
+            );
         $manager->persist($employee);
 
-        for ($i=0; $i < 10; $i++) { 
+        $employee2 = new User;
+        $employee2->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail('admin@test.com')->setRoles(['ROLE_ADMIN'])
+            ->setPhone('0606060606')
+            ->setPassword(
+                $this->encoder->encodePassword(
+                    $employee,
+                    'motdepasse'
+                )
+            );
+        $manager->persist($employee2);
+
+        for ($i = 0; $i < 10; $i++) {
 
             $title = $faker->words(3, true);
             $slug = str_replace(" ", "-", $title);
@@ -45,17 +58,17 @@ class AppFixtures extends Fixture
                 ->setRooms($faker->randomDigitNotNull())
                 ->setAddress($faker->streetAddress())
                 ->setZipcode($faker->postcode())
+                ->setImageName($faker->imageUrl($width = 640, $height = 480))
                 ->setCity($faker->city())
                 ->setType($faker->randomElement(["appartement", "maison", "villa"]))
                 ->setTransactionType(true)
                 ->setDateOfConstruction(new \DateTime($faker->date()))
                 ->setSlug($slug)
-                ->setEmployee($employee)
-            ;
+                ->setEmployee($employee);
             $manager->persist($property);
         }
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
 
             $title = $faker->words(3, true);
             $slug = str_replace(" ", "-", $title);
@@ -73,8 +86,7 @@ class AppFixtures extends Fixture
                 ->setTransactionType(false)
                 ->setDateOfConstruction(new \DateTime($faker->date()))
                 ->setSlug($slug)
-                ->setEmployee($employee)
-            ;
+                ->setEmployee($employee);
             $manager->persist($property);
         }
         $manager->flush();

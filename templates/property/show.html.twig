@@ -6,13 +6,13 @@
 
 {% block body %}
 	<div class="container">
-	{% for type, messages in app.flashes %}
-		<div class="alert alert-{{type}}" role="alert">
-			{% for message in messages %}
-				<p>{{message}}</p>
-			{% endfor %}
-		</div>
-	{% endfor %}
+		{% for type, messages in app.flashes %}
+			<div class="alert alert-{{type}}" role="alert">
+				{% for message in messages %}
+					<p>{{message}}</p>
+				{% endfor %}
+			</div>
+		{% endfor %}
 		<div class="row mt-3 border-bottom border-dark border-2">
 			<div id="image" class="col-7">
 				<div id="mainImage" class="my-5">
@@ -31,73 +31,78 @@
 				</div>
 			</div>
 			<div class="col-5" id="form">
-			<h2>Prendre rendez-vous pour visiter le bien:</h2>
-				{{form(form)}}
-			</div>
-		</div>
-		<div class="mt-3 row">
-			<div class="col-7">
-				<h2 class="text-primary">{{property.title}}</h2>
-				<p>{{ property.content }}</p>
-			</div>
-			<div class="col-5 row">
-				<p class="h4 text-primary">{{property.transactionType}}</p>
-				<p>
-					<strong>Type:</strong>
-					{{property.type}}
-				</p>
-				<p>
-					<strong>Surface:</strong>
-					{{property.surface}}
-					m²
-				</p>
-				<p>
-					<strong>Taille de terrain:</strong>
-					{% if property.groundSize is not null %}
-						{{property.groundSize}}
-						m²
-					{% else %}
-						N/A
+				<h2>Prendre rendez-vous pour visiter le bien:</h2>
+				{% if app.user %}
+					{{form(form)}}
+						{% else %}
+							<p>Vous devez vous connecter pour prendre rdv !</p>
+							<a href="{{path('app_login')}}">Se connecter</a>
 					{% endif %}
-				</p>
-				<p>
-					<strong>Nombre de pièces:</strong>
-					{{property.rooms}}
-				</p>
-				<p>
-					<strong>Etage:</strong>
-					{{property.floor}}
-				</p>
-				<div class="col-6">
-					<p class="text-primary">
-						<strong>Adresse:</strong>
-						{{property.address}},
-						{{property.zipCode}},
-						{{property.city}}
+				</div>
+			</div>
+			<div class="mt-3 row">
+				<div class="col-7">
+					<h2 class="text-primary">{{property.title}}</h2>
+					<p>{{ property.content }}</p>
+				</div>
+				<div class="col-5 row">
+					<p class="h4 text-primary">{{property.transactionType}}</p>
+					<p>
+						<strong>Type:</strong>
+						{{property.type}}
 					</p>
 					<p>
-						<strong>Prix:</strong>
-						{{property.price|number_format(0, ",", " ")}}
-						€
+						<strong>Surface:</strong>
+						{{property.surface}}
+						m²
 					</p>
 					<p>
-						<strong>Date de construction:</strong>
+						<strong>Taille de terrain:</strong>
 						{% if property.groundSize is not null %}
-							{{property.dateOfConstruction|date("d m Y")}}
+							{{property.groundSize}}
+							m²
 						{% else %}
 							N/A
 						{% endif %}
 					</p>
 					<p>
-						<strong>Liste des options:</strong>
+						<strong>Nombre de pièces:</strong>
+						{{property.rooms}}
 					</p>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item h4 list-group-item-danger">
-							Ce logement n'a pas d'options.
-						</li>
-					</ul>
+					<p>
+						<strong>Etage:</strong>
+						{{property.floor}}
+					</p>
+					<div class="col-6">
+						<p class="text-primary">
+							<strong>Adresse:</strong>
+							{{property.address}},
+							{{property.zipCode}},
+							{{property.city}}
+						</p>
+						<p>
+							<strong>Prix:</strong>
+							{{property.price|number_format(0, ",", " ")}}
+							€
+						</p>
+						<p>
+							<strong>Date de construction:</strong>
+							{% if property.groundSize is not null %}
+								{{property.dateOfConstruction|date("d m Y")}}
+							{% else %}
+								N/A
+							{% endif %}
+						</p>
+						<p>
+							<strong>Liste des options:</strong>
+						</p>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item h4 list-group-item-danger">
+								Ce logement n'a pas d'options.
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}

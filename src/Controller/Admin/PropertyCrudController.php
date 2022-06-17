@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class PropertyCrudController extends AbstractCrudController
 {
@@ -25,7 +26,7 @@ class PropertyCrudController extends AbstractCrudController
     {
         if (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
             $transactionType = ChoiceField::new('transactionType', 'Type de transaction')
-            ->setChoices(fn() => ["A vendre" => true, "A louer" => false]);
+                ->setChoices(fn () => ["A vendre" => true, "A louer" => false]);
             // ->formatValue(function($value) {
             //     return $value === 'A vendre' ? true : false;
             // });
@@ -37,6 +38,13 @@ class PropertyCrudController extends AbstractCrudController
         // price, floor, rooms, address, zipcode, city, type, transactionType, dateOfConstruction, sell, slug
         return [
             $title =  TextField::new('title'),
+
+            ImageField::new('ImageName')
+                ->setBasePath('/uploads')
+                ->setLabel('L\'image du plat')
+                ->setUploadDir('/public/uploads')
+                ->setUploadedFilenamePattern('[randomhash].[extension]')
+                ->setRequired(false),
             $surface =  IntegerField::new('surface'),
             $content =  TextField::new("content")->hideOnIndex(),
             $price =  MoneyField::new('price')->setCurrency('EUR'),
@@ -52,5 +60,4 @@ class PropertyCrudController extends AbstractCrudController
             $slug
         ];
     }
-    
 }
