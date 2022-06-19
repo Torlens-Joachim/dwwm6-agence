@@ -1,20 +1,37 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="mt-3">Merci pour votre réservation</h1>
-        <p>Votre rendez-vous est confirmé pour la visite du bien: <strong>{{appointment.property.title}}</strong></p>
+	<main>
+		<div class="container">
+			<h1 class="mt-3">Merci pour votre réservation</h1>
+			<p>Votre rendez-vous est confirmé pour la visite du bien:
+				<strong>{{appointment.property.title}}</strong>
+			</p>
 
-        {% for image in appointment.property.pictures %}
-            <img src={{ asset("img/properties/" ~ image.name) }}>
-        {% else %}
-            <p><small>Pas d'image de disponible</small></p>
-        {% endfor %}
+			{% for image in appointment.property.pictures %}
+				<img src={{ asset("img/properties/" ~ image.name) }}>
+			{% else %}
+				<p>
+					<small>Pas d'image de disponible</small>
+				</p>
+			{% endfor %}
 
-        <p>date de rendez-vous: <strong>{{appointment.appointmentDate|date('d m Y')}} à {{appointment.appointmentDate|date('h:i')}}</strong></p>
-        <p>Retrouvez-nous à l'adresse suivante: <strong>{{appointment.property.address}}, {{appointment.property.zipcode}}, {{appointment.property.city}}</strong></p>
-        <p>L'agent <strong>{{appointment.employee.firstname}} {{appointment.employee.lastname}}</strong> sera votre correspondant pour cette visite.</p>
-        
-        <p class="h4">A très vite chez Agency!</p>
-    </div>
+			<p>date de rendez-vous:
+				<strong>{{appointment.appointmentDate|date('d m Y')}}
+					à
+					{{appointment.appointmentDate|date('h:i')}}</strong>
+			</p>
+			<p>Retrouvez-nous à l'adresse suivante:
+				<strong>{{appointment.property.address}},
+					{{appointment.property.zipcode}},
+					{{appointment.property.city}}</strong>
+			</p>
+			<p>L'agent
+				<strong>{{appointment.employee.firstname}}
+					{{appointment.employee.lastname}}</strong>
+				sera votre correspondant pour cette visite.</p>
+
+			<p class="h4">A très vite chez Agency!</p>
+		</div>
+	</main>
 {% endblock %}

@@ -1,8 +1,12 @@
 .fixed {
-    position: fixed !important;
-    top:0 !important;
-    right:0 !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
 }
 a.nav-link {
-    color:white !important;
+  color: white !important;
+}
+
+main {
+  min-height: 86.7vh;
 }

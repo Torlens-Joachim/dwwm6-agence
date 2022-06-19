@@ -11,8 +11,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PropertyCrudController extends AbstractCrudController
 {
@@ -35,16 +37,20 @@ class PropertyCrudController extends AbstractCrudController
             $transactionType = TextField::new('transactionType');
             $slug = TextField::new('slug');
         }
+        // $property = new Property();
+        // dd($property->getPictures());
         // price, floor, rooms, address, zipcode, city, type, transactionType, dateOfConstruction, sell, slug
         return [
             $title =  TextField::new('title'),
-
-            ImageField::new('ImageName')
+            // AssociationField::new('pictures'),
+            // TextField::new('imageName')->setFormType(VichImageType::class)->onlyWhenCreating(),
+            ImageField::new('imageName')
                 ->setBasePath('/uploads')
-                ->setLabel('L\'image du plat')
+                ->setLabel('L\'image du bien')
                 ->setUploadDir('/public/uploads')
                 ->setUploadedFilenamePattern('[randomhash].[extension]')
                 ->setRequired(false),
+
             $surface =  IntegerField::new('surface'),
             $content =  TextField::new("content")->hideOnIndex(),
             $price =  MoneyField::new('price')->setCurrency('EUR'),
@@ -54,10 +60,12 @@ class PropertyCrudController extends AbstractCrudController
             $zipcode =  TextField::new('zipcode')->hideOnIndex(),
             $city =  TextField::new('city'),
             $type =  TextField::new('type'),
+            // $employee = ChoiceField::new('employee'),
             $transactionType,
             $dateOfConstruction =  DateField::new('dateOfConstruction')->hideOnIndex(),
             $sell =  BooleanField::new('sell')->hideOnIndex(),
-            $slug
+            $slug,
+
         ];
     }
 }

@@ -4,119 +4,125 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<h1 class="mt-5 text-center">Retrouvez tous nos biens disponibles ici</h1>
-		<div id="filters">
-			<form action="{{path("properties")}}" method="GET">
+	<main>
+		<div class="container">
+			<h1 class="mt-5 text-center">Retrouvez tous nos biens disponibles ici</h1>
+			<div id="filters">
+				<form action="{{path("properties")}}" method="GET">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>
+									<label for="type">Type du bien</label>
+								</th>
+								<th>
+									<label for="transactionType">Achat/Location</label>
+								</th>
+								<th>
+									<label for="roomsMin">Pièces min</label>
+								</th>
+								<th>
+									<label for="roomsMax">Pièces max</label>
+								</th>
+								<th>
+									<label for="surfaceMin">Surface min</label>
+								</th>
+								<th>
+									<label for="surfaceMax">Surface max</label>
+								</th>
+								<th>
+									<label for="priceMin">Prix min</label>
+								</th>
+								<th>
+									<label for="priceMax">Prix max</label>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									{% set types = ['maison', 'appartement'] %}
+									<select name="type" id="type">
+										<option value=""></option>
+										{% for type in types %}
+											<option value="{{type}}" {% if filters and "type" in filters|keys %} {% if filters.type is same as(type) %} selected {% endif %} {% endif %}>{{type|capitalize}}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td>
+									{% set transactionTypes = ['Achat', 'Location'] %}
+									<select name="transactionType" id="transactionType" value={{filters.transactionType|default('')}}>
+										<option value=""></option>
+										{% for transaction in transactionTypes %}
+											{% if transaction == "Achat" %}
+												<option value="true">{{transaction|capitalize}}</option>
+											{% else %}
+												<option value="false" {% if filters and "transactionType" in filters|keys %} {% if filters.transactionType is same as(transaction) %} selected {% endif %} {% endif %}>{{transaction|capitalize}}</option>
+											{% endif %}
+										{% endfor %}
+									</select>
+								</td>
+								<td><input type="number" name="roomsMin" id="roomsMin" value={{filters.roomsMin|default('')}}></td>
+								<td><input type="number" name="roomsMax" id="roomsMax" value={{filters.roomsMax|default('')}}></td>
+								<td><input type="number" name="surfaceMin" id="surfaceMin" value={{filters.surfaceMin|default('')}}></td>
+								<td><input type="number" name="surfaceMax" id="surfaceMax" value={{filters.surfaceMax|default('')}}></td>
+								<td><input type="number" name="priceMin" id="priceMin" value={{filters.priceMin|default('')}}></td>
+								<td><input type="number" name="priceMax" id="priceMax" value={{filters.priceMax|default('')}}></td>
+							</tr>
+							<tr>
+								<td colspan="6" class="text-center">
+									<button class="btn btn-primary">Rechercher</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<div class="mt-3">
+				<p class="h6">Nombre de biens disponibles:
+					<span class="text-success">{{pagination.getTotalItemCount}}</span>
+				</p>
+			</div>
+			<div class="text-center">
 				<table class="table">
-					<thead>
-						<tr>
-							<th>
-								<label for="type">Type du bien</label>
-							</th>
-							<th>
-								<label for="transactionType">Achat/Location</label>
-							</th>
-							<th>
-								<label for="roomsMin">Pièces min</label>
-							</th>
-							<th>
-								<label for="roomsMax">Pièces max</label>
-							</th>
-							<th>
-								<label for="surfaceMin">Surface min</label>
-							</th>
-							<th>
-								<label for="surfaceMax">Surface max</label>
-							</th>
-							<th>
-								<label for="priceMin">Prix min</label>
-							</th>
-							<th>
-								<label for="priceMax">Prix max</label>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								{% set types = ['maison', 'appartement'] %}
-								<select name="type" id="type">
-									<option value=""></option>
-									{% for type in types %}
-										<option value="{{type}}" {% if filters and "type" in filters|keys %} {% if filters.type is same as(type) %} selected {% endif %} {% endif %}>{{type|capitalize}}</option>
-									{% endfor %}
-								</select>
-							</td>
-							<td>
-								{% set transactionTypes = ['Achat', 'Location'] %}
-								<select name="transactionType" id="transactionType" value={{filters.transactionType|default('')}}>
-									<option value=""></option>
-									{% for transaction in transactionTypes %}
-										{% if transaction == "Achat" %}
-											<option value="true">{{transaction|capitalize}}</option>
-										{% else %}
-											<option value="false" {% if filters and "transactionType" in filters|keys %} {% if filters.transactionType is same as(transaction) %} selected {% endif %} {% endif %}>{{transaction|capitalize}}</option>
-										{% endif %}
-									{% endfor %}
-								</select>
-							</td>
-							<td><input type="number" name="roomsMin" id="roomsMin" value={{filters.roomsMin|default('')}}></td>
-							<td><input type="number" name="roomsMax" id="roomsMax" value={{filters.roomsMax|default('')}}></td>
-							<td><input type="number" name="surfaceMin" id="surfaceMin" value={{filters.surfaceMin|default('')}}></td>
-							<td><input type="number" name="surfaceMax" id="surfaceMax" value={{filters.surfaceMax|default('')}}></td>
-							<td><input type="number" name="priceMin" id="priceMin" value={{filters.priceMin|default('')}}></td>
-							<td><input type="number" name="priceMax" id="priceMax" value={{filters.priceMax|default('')}}></td>
-						</tr>
-						<tr>
-							<td colspan="6" class="text-center">
-								<button class="btn btn-primary">Rechercher</button>
-							</td>
-						</tr>
-					</tbody>
+					<tr>
+						<td>{{ knp_pagination_sortable(pagination, "Pièces", "rooms") }}</td>
+						<td>{{ knp_pagination_sortable(pagination, "Surface", "surface") }}</td>
+						<td>{{ knp_pagination_sortable(pagination, "Prix", "price") }}</td>
+					</tr>
 				</table>
-			</form>
-		</div>
-		<div class="mt-3">
-			<p class="h6">Nombre de biens disponibles:
-				<span class="text-success">{{pagination.getTotalItemCount}}</span>
-			</p>
-		</div>
-		<div class="text-center">
-			<table class="table">
-				<tr>
-					<td>{{ knp_pagination_sortable(pagination, "Pièces", "rooms") }}</td>
-					<td>{{ knp_pagination_sortable(pagination, "Surface", "surface") }}</td>
-					<td>{{ knp_pagination_sortable(pagination, "Prix", "price") }}</td>
-				</tr>
-			</table>
-		</div>
-		<div class="row">
-			{% for property in pagination %}
-				<div class="card m-3" style="width:18rem;">
-					<img src="https://fakeimg.pl/300" alt="{{property.title}}" class="card-img-top">
-					<div class="card-body">
-						<h5 class="card-title">{{property.title}}</h5>
-						<p class="card-text">Nb de pièces:
-							{{property.rooms}}</p>
-						<p class="card-text">Surface:
-							{{property.surface}}
-							m²</p>
-						<p class="card-text">Prix:
-							{{property.price|number_format(0, ',', ' ')}}
-							€</p>
-						<p class="card-text">
-							{{property.transactionType}}
-						</p>
-						<a href="{{path("property_show", {slug:property.slug})}}" class="btn btn-primary">Voir le bien</a>
+			</div>
+			<div class="row">
+				{% for property in pagination %}
+					<div class="card m-3" style="width:18rem;">
+						{% if property.imageName %}
+							<img src="/uploads/{{property.imageName}}" alt="">
+						{% else %}
+							<img src="https://fakeimg.pl/300" alt="{{property.title}}" class="card-img-top">
+						{% endif %}
+						<div class="card-body">
+							<h5 class="card-title">{{property.title}}</h5>
+							<p class="card-text">Nb de pièces:
+								{{property.rooms}}</p>
+							<p class="card-text">Surface:
+								{{property.surface}}
+								m²</p>
+							<p class="card-text">Prix:
+								{{property.price|number_format(0, ',', ' ')}}
+								€</p>
+							<p class="card-text">
+								{{property.transactionType}}
+							</p>
+							<a href="{{path("property_show", {slug:property.slug})}}" class="btn btn-primary">Voir le bien</a>
+						</div>
 					</div>
-				</div>
-			{% else %}
-				<h2 class="h1">Nous n'avons aucun bien à vous proposer pour le moment</h2>
-			{% endfor %}
+				{% else %}
+					<h2 class="h1">Nous n'avons aucun bien à vous proposer pour le moment</h2>
+				{% endfor %}
+			</div>
+			<div class="navigation mx-auto col-2">
+				{{knp_pagination_render(pagination)}}
+			</div>
 		</div>
-		<div class="navigation mx-auto col-2">
-			{{knp_pagination_render(pagination)}}
-		</div>
-	</div>
+	</main>
 {% endblock %}
